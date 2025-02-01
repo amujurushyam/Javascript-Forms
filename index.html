@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Registration-Form</title>
+    <style>
+      body {
+        font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS",
+          sans-serif;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: #ccc;
+      }
+      #form {
+        padding: 10px;
+        margin: 10px;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px black;
+        border: 1px solid black;
+        width: 350px;
+        text-align: center;
+      }
+      #form input {
+        margin: 5px;
+        padding: 5px;
+        border-radius: 3px;
+        border: 1px solid #ccc;
+      }
+      #form input[type="submit"] {
+        background-color: #ff4d4d;
+        color: white;
+        border: none;
+        padding: 5px 10px;
+        border-radius: 3px;
+        cursor: pointer;
+      }
+      #form input[type="submit"]:hover {
+        background-color: #cc0000;
+      }
+      div {
+        background-color: lightblue;
+        padding: 10px;
+        margin: 10px;
+        border-radius: 5px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        width: 200px;
+        text-align: center;
+        /* display: inline-block; */
+        border: 1px solid #ccc;
+      }
+      img {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin: 10px;
+      }
+      h2 {
+        margin: 10;
+      }
+      @media screen and (min-width: 0px) and (max-width: 321px) {
+        #form {
+          width: 80%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <form id="form">
+      <h2>Application Form</h2>
+      <label for="name">Enter your name:</label>
+      <input type="text" id="name" placeholder="Enter name" /> <br /><br />
+      <label for="email">Enter your mail:</label>
+      <input type="email" id="email" placeholder="Enter email" /><br /><br />
+      <label for="age">Enter your age:</label>
+      <input type="text" id="age" placeholder="Enter age" /><br /><br />
+      <label for="location">Enter your location:</label>
+      <input
+        type="text"
+        id="location"
+        placeholder="Enter location"
+      /><br /><br />
+      <label for="img">Image URL:</label>
+      <input type="url" id="img" placeholder="Enter image" /><br /><br />
+      <input type="submit" value="Submit" />
+    </form>
+    <script>
+      let form = document.getElementById("form");
+      form.addEventListener("submit", (x) => {
+        x.preventDefault();
+        console.log(
+          x.target[0].value,
+          x.target[1].value,
+          x.target[2].value,
+          x.target[3].value,
+          x.target[4].value
+        );
+        let name = x.target[0].value;
+        let email = x.target[1].value;
+        let age = x.target[2].value;
+        let location = x.target[3].value;
+        let img = x.target[4].value;
+
+        let userDetails = {
+          username: name,
+          email: email,
+          age: age,
+          location: location,
+          img: img,
+        };
+
+        let existingData = JSON.parse(localStorage.getItem("userinfo")) || [];
+        existingData.push(userDetails);
+        let stringifiedData = JSON.stringify(existingData);
+        localStorage.setItem("userinfo", stringifiedData);
+        let parsedData = JSON.parse(stringifiedData);
+        console.log(parsedData);
+        let card = document.createElement("div");
+        card.style.backgroundColor = "lightblue";
+        card.style.padding = "10px";
+        card.style.margin = "10px";
+        card.style.borderRadius = "5px";
+        card.style.boxShadow = "0 2px 5px rgba(0, 0, 0, 0.1)";
+        card.style.width = "200px";
+        card.style.textAlign = "center";
+        card.style.border = "1px solid #ccc";
+        let username = document.createElement("h2");
+        let useremail = document.createElement("p");
+        let userage = document.createElement("p");
+        let userlocation = document.createElement("p");
+        let userimg = document.createElement("img");
+        userimg.src = parsedData[parsedData.length - 1].img;
+        userimg.style.width = "100px";
+        userimg.style.height = "100px";
+        userimg.style.borderRadius = "50%";
+        userimg.style.objectFit = "cover";
+        userimg.style.margin = "10px";
+
+        username.innerHTML = parsedData[parsedData.length - 1].username;
+        userage.innerHTML = parsedData[parsedData.length - 1].age;
+        userlocation.innerHTML = parsedData[parsedData.length - 1].location;
+
+        useremail.innerHTML = parsedData[parsedData.length - 1].email;
+        card.append(username, useremail, userage, userlocation, userimg);
+
+        document.body.append(card);
+      });
+    </script>
+  </body>
+</html>
